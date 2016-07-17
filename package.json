@@ -1,6 +1,6 @@
 {
   "name": "bookshelf-mass-assignment",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "A Bookshelf plugin that prevents mass-assignment vulnerabilities",
   "main": "index.js",
   "scripts": {

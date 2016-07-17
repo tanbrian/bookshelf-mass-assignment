@@ -1,8 +1,6 @@
-*Still a work in progress! Things will probably break.*
-
 A Bookshelf plugin that provides `fillable` and `guarded` properties on the model to prevent certain properties from being mass-assignable. Inspired by Laravel's Eloquent ORM.
 
-#### Usage
+### Usage
 
 Initialize the plugin with:
 
@@ -36,7 +34,7 @@ const User = bookshelf.Model('User', {
 
 You can only use either `fillable` or `guarded`, not both.
 
-#### To-do
+### To-do
 
 * Add a `silent` flag that deletes the offending attributes instead of failing the save Promise
 * Support `*` for the `guarded` property that blocks all attributes of the model from mass-assignment

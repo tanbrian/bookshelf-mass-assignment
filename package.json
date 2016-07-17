@@ -23,11 +23,13 @@
   "homepage": "https://github.com/tanbrian/bookshelf-mass-assignment#readme",
   "dependencies": {
     "bluebird": "^3.4.1",
-    "bookshelf": "^0.10.0",
-    "knex": "^0.11.7",
     "lodash": "^4.13.1"
   },
   "devDependencies": {
-    "mocha": "^2.5.3"
+    "bookshelf": "^0.10.0",
+    "chai": "^3.5.0",
+    "knex": "^0.11.7",
+    "mocha": "^2.5.3",
+    "sqlite3": "^3.1.4"
   }
 }

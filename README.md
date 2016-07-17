@@ -4,12 +4,17 @@ A Bookshelf plugin that provides `fillable` and `guarded` properties on the mode
 
 #### Usage
 
-In your Bookshelf models:
+Initialize the plugin with:
 
-```
+```javascript
 require('bookshelf');
-require('bookshelf-mass-assignment');
 
+bookshelf.plugin(require('bookshelf-mass-assignment'));
+```
+
+Then in your Bookshelf models:
+
+```javascript
 const User = bookshelf.Model('User', {
   tableName: 'users',
 
@@ -20,7 +25,7 @@ const User = bookshelf.Model('User', {
 
 The `fillable` property serves as a list of whitelisted user attributes that can be modified. Alternatively, you can use the `guarded` property to specify a blacklist of user attributes that cannot be modified:
 
-```
+```javascript
 const User = bookshelf.Model('User', {
   tableName: 'users',
 

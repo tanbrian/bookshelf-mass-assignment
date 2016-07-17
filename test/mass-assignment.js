@@ -46,6 +46,11 @@ describe('mass assignment plugin', function() {
           .then(user => Promise.reject(new Error('User was saved.')))
           .catch(err => expect(err.message).to.equal('Couldn\'t save model! Attributes are invalid.'));
     });
+
+    it('saves appropriate attributes silently when silent is set to true', function() {
+      return new User().save({ is_admin: true, first_name: 'Joe' }, { silent: true })
+        .then(user => expect(user.get('first_name')).to.equal('Joe'));
+    });
   });
 
   describe('guarded behavior', function() {
@@ -67,6 +72,11 @@ describe('mass assignment plugin', function() {
       return new User().save({ first_name: 'Billy', is_admin: true })
         .then(user => Promise.reject(new Error('User was saved.')))
         .catch(err => expect(err.message).to.equal('Couldn\'t save model! Attributes are invalid.'));
+    });
+
+    it('saves appropriate attributes silently when silent is set to true', function() {
+      return new User().save({ is_admin: true, first_name: 'Joe' }, { silent: true })
+        .then(user => expect(user.get('first_name')).to.equal('Joe'));
     });
   });
 });

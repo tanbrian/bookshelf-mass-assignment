@@ -1,16 +1,27 @@
+## bookshelf-mass-assignment
+
+[![Build Status](https://travis-ci.org/tanbrian/bookshelf-mass-assignment.svg?branch=master)](https://travis-ci.org/tanbrian/bookshelf-mass-assignment)
+
 A Bookshelf plugin that provides `fillable` and `guarded` properties on the model to prevent certain properties from being mass-assignable. Inspired by Laravel's Eloquent ORM.
+
+### Installation
+
+Install the module from `npm`:
+
+```
+npm install bookshelf-mass-assignment
+```
 
 ### Usage
 
 Initialize the plugin with:
 
 ```javascript
-require('bookshelf');
-
+const bookshelf = require('bookshelf');
 bookshelf.plugin(require('bookshelf-mass-assignment'));
 ```
 
-Then in your Bookshelf models:
+Then in your Bookshelf models, you can use the `fillable` or `guarded` properties:
 
 ```javascript
 const User = bookshelf.Model('User', {
@@ -32,9 +43,24 @@ const User = bookshelf.Model('User', {
 });
 ```
 
-You can only use either `fillable` or `guarded`, not both.
+Then save the model as usual:
 
-### To-do
+```javascript
+new User().save({ first_name: 'Bob', is_admin: true })
+  .then(user => console.log('Successfully saved user!'))
+  .catch(err => console.log(err.message)); // Couldn\'t save model! Attributes are invalid.
+```
 
-* Add a `silent` flag that deletes the offending attributes instead of failing the save Promise
-* Support `*` for the `guarded` property that blocks all attributes of the model from mass-assignment
+If you don't want a hard error to be thrown when protected attributes are present, then add `silent: true` to the `options` object in `save`. This will ignore any attributes not in `fillable` if `fillable` is specified, or will ignore any attributes in `guarded` if `guarded` is specified:
+
+```javascript
+new User().save({ first_name: 'Bob', is_admin: true }, { silent: true })
+  .then(user => console.log('Successfully saved user!')) // Only saved { first:name: 'Bob' }.
+  .catch(err => console.log(err.message));
+```
+
+Note that you can only use either `fillable` or `guarded`, not both.
+
+### License
+
+Licensed under the terms of the [MIT License](LICENSE).

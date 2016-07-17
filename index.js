@@ -31,6 +31,8 @@ module.exports = bookshelf => {
 
       if (options.fillable) this.fillable = _.clone(options.fillable);
       if (options.guarded) this.guarded = _.clone(options.guarded);
+
+      this.silent = options.silent ? options.silent : false;
     },
 
     /**
@@ -64,9 +66,19 @@ module.exports = bookshelf => {
       // Save is invalid if any field in attrs is also in the guarded array.
       if ((this.guarded && Object.keys(attrs).some(attr => this.guarded.indexOf(attr) >= 0)) ||
           (this.fillable && Object.keys(attrs).some(attr => this.fillable.indexOf(attr) === -1))) {
-        return Promise.reject(new MassAssignmentError(
-          'Couldn\'t save model! Attributes are invalid.'
-        ));
+        // If { silent: false } (default), then throws a hard error.
+        if (!options.silent) {
+          return Promise.reject(new MassAssignmentError(
+            'Couldn\'t save model! Attributes are invalid.'
+          ));
+        }
+
+        Object.keys(attrs).forEach(attr => {
+          if ((this.fillable && this.fillable.indexOf(attr) === -1) ||
+              (this.guarded && this.guarded.indexOf(attr) >= 0)) {
+            delete attrs[attr];
+          }
+        });
       }
 
       return proto.save.call(this, attrs, options);

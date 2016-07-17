@@ -1,0 +1,33 @@
+{
+  "name": "bookshelf-mass-assignment",
+  "version": "0.0.1",
+  "description": "A Bookshelf plugin that prevents mass-assignment vulnerabilities",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tanbrian/bookshelf-mass-assignment.git"
+  },
+  "keywords": [
+    "bookshelf",
+    "nodejs",
+    "javascript"
+  ],
+  "author": "Brian Tan",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/tanbrian/bookshelf-mass-assignment/issues"
+  },
+  "homepage": "https://github.com/tanbrian/bookshelf-mass-assignment#readme",
+  "dependencies": {
+    "bluebird": "^3.4.1",
+    "bookshelf": "^0.10.0",
+    "knex": "^0.11.7",
+    "lodash": "^4.13.1"
+  },
+  "devDependencies": {
+    "mocha": "^2.5.3"
+  }
+}

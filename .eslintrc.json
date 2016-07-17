@@ -1,0 +1,7 @@
+{
+    "extends": "google",
+    "rules": {
+      "object-curly-spacing": ["error", "always"],
+      "max-len": ["error", 100]
+    }
+}

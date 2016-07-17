@@ -5,7 +5,7 @@ const _ = require('lodash');
 
 const { ImproperlyConfiguredError, MassAssignmentError } = require('./errors');
 
-module.exports = (bookshelf) => {
+module.exports = bookshelf => {
   const proto = bookshelf.Model.prototype;
 
   const Model = bookshelf.Model.extend({
@@ -38,7 +38,13 @@ module.exports = (bookshelf) => {
      * to be set are protected from user modification via a fillable or guarded
      * array.
      *
-     * @return Promise<Model> Rejected Promise if any properties in attrs are
+     * @param {Object|String} key Object with attribute-value pairs to be set,
+     * or an attribute name.
+     * @param {mixed} val If defined, the value of key attribute.
+     * @param {Object} options Can also include a silent property to decide
+     * whether to reject or continue silently with invalid attributes.
+     *
+     * @return {Promise<Model>} Rejected Promise if any properties in attrs are
      * protected. Otherwise, returns the Promise returned by the super
      * implementation.
      *
@@ -47,7 +53,7 @@ module.exports = (bookshelf) => {
       let attrs;
 
       // Handles both `"key", value` and `{key: value}` -style arguments.
-      if (key == null || typeof key === 'object') {
+      if (key === null || typeof key === 'object') {
         attrs = key || {};
         options = _.clone(val) || {};
       } else {
@@ -55,22 +61,16 @@ module.exports = (bookshelf) => {
         options = options ? _.clone(options) : {};
       }
 
-      // Save is invalid if any field in attrs is not in the fillable array.
-      if (this.fillable && Object.keys(attrs).some(attr => this.fillable.indexOf(attr) === -1)) {
-        return Promise.reject(new MassAssignmentError(
-          'Couldn\'t save model! Attributes are invalid.'
-        ));
-      }
-
       // Save is invalid if any field in attrs is also in the guarded array.
-      if (this.guarded && Object.keys(attrs).some(attr => this.guarded.indexOf(attr) >= 0)) {
+      if ((this.guarded && Object.keys(attrs).some(attr => this.guarded.indexOf(attr) >= 0)) ||
+          (this.fillable && Object.keys(attrs).some(attr => this.fillable.indexOf(attr) === -1))) {
         return Promise.reject(new MassAssignmentError(
           'Couldn\'t save model! Attributes are invalid.'
         ));
       }
 
       return proto.save.call(this, attrs, options);
-    },
+    }
   });
 
   bookshelf.Model = Model;

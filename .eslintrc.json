@@ -1,7 +1,12 @@
 {
     "extends": "google",
+    "env": {
+      "node": true,
+      "mocha": true
+    },
     "rules": {
       "object-curly-spacing": ["error", "always"],
-      "max-len": ["error", 100]
+      "max-len": ["error", 100],
+      "camelcase": "off"
     }
 }

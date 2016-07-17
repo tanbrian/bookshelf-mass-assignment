@@ -1,5 +1,4 @@
 const expect = require('chai').expect;
-const assert = require('chai').assert;
 
 const knex = require('knex');
 const massAssignment = require('..');
@@ -48,7 +47,7 @@ describe('mass assignment plugin', function() {
     before('set up model', function() {
       User = bookshelf.Model.extend({
         tableName: 'users',
-        fillable: ['first_name'],
+        fillable: ['first_name']
       });
     });
 
@@ -58,9 +57,11 @@ describe('mass assignment plugin', function() {
     });
 
     it('fails to save when provided an attribute not in fillable', function() {
-        return new User().save({ first_name: 'Jack', is_admin: true })
-          .then(user => Promise.reject(new Error('User was saved.')))
-          .catch(err => expect(err.message).to.equal('Couldn\'t save model! Attributes are invalid.'));
+      return new User().save({ first_name: 'Jack', is_admin: true })
+        .then(user => Promise.reject(new Error('User was saved.')))
+        .catch(err => expect(err.message).to.equal(
+          'Couldn\'t save model! Attributes are invalid.')
+        );
     });
 
     it('saves appropriate attributes silently when silent is set to true', function() {
@@ -87,7 +88,9 @@ describe('mass assignment plugin', function() {
     it('fails to save when provided an attribute in guarded', function() {
       return new User().save({ first_name: 'Billy', is_admin: true })
         .then(user => Promise.reject(new Error('User was saved.')))
-        .catch(err => expect(err.message).to.equal('Couldn\'t save model! Attributes are invalid.'));
+        .catch(err => expect(err.message).to.equal(
+          'Couldn\'t save model! Attributes are invalid.')
+        );
     });
 
     it('saves appropriate attributes silently when silent is set to true', function() {

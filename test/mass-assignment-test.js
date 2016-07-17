@@ -26,13 +26,29 @@ describe('mass assignment plugin', function() {
       .then(() => done());
   });
 
+  it('throws an exception when specifying both guarded and fillable attributes', function(done) {
+    try {
+      const User = bookshelf.Model.extend({
+        tableName: 'users',
+        fillable: ['first_name'],
+        guarded: ['id', 'is_admin']
+      });
+
+      return new User().save({ first_name: 'Jack', is_admin: true })
+        .then(user => Promise.reject(new Error('User was saved.')));
+    } catch (err) {
+      expect(err.message).to.equal('Cannot specify both fillable and guarded options.');
+      done();
+    }
+  });
+
   describe('fillable behavior', function() {
     let User;
 
     before('set up model', function() {
       User = bookshelf.Model.extend({
         tableName: 'users',
-        fillable: ['first_name']
+        fillable: ['first_name'],
       });
     });
 

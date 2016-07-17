@@ -55,7 +55,7 @@ If you don't want a hard error to be thrown when protected attributes are presen
 
 ```javascript
 new User().save({ first_name: 'Bob', is_admin: true }, { silent: true })
-  .then(user => console.log('Successfully saved user!')) // Only saved { first:name: 'Bob' }.
+  .then(user => console.log('Successfully saved user!')) // Only saved { first_name: 'Bob' }.
   .catch(err => console.log(err.message));
 ```
 
